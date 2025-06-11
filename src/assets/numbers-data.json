@@ -1,0 +1,84 @@
+{
+  "numbers": [
+    {
+      "id": "1",
+      "number": "+91 98765 43210",
+      "price": 5000,
+      "tags": ["VIP", "Lucky"],
+      "status": "available",
+      "pattern_type": "VIP"
+    },
+    {
+      "id": "2",
+      "number": "+91 99999 99999",
+      "price": 25000,
+      "tags": ["Repeating", "Premium"],
+      "status": "available",
+      "pattern_type": "Repeating"
+    },
+    {
+      "id": "3",
+      "number": "+91 88888 88888",
+      "price": 20000,
+      "tags": ["Repeating", "VIP"],
+      "status": "available",
+      "pattern_type": "Repeating"
+    },
+    {
+      "id": "4",
+      "number": "+91 77777 77777",
+      "price": 18000,
+      "tags": ["Repeating", "Lucky"],
+      "status": "available",
+      "pattern_type": "Repeating"
+    },
+    {
+      "id": "5",
+      "number": "+91 98765 12345",
+      "price": 3000,
+      "tags": ["Sequential", "Custom"],
+      "status": "available",
+      "pattern_type": "Custom"
+    },
+    {
+      "id": "6",
+      "number": "+91 90909 09090",
+      "price": 8000,
+      "tags": ["Mirror", "Pattern"],
+      "status": "available",
+      "pattern_type": "Custom"
+    },
+    {
+      "id": "7",
+      "number": "+91 98888 88889",
+      "price": 12000,
+      "tags": ["VIP", "Premium"],
+      "status": "available",
+      "pattern_type": "VIP"
+    },
+    {
+      "id": "8",
+      "number": "+91 97777 77770",
+      "price": 10000,
+      "tags": ["VIP", "Lucky"],
+      "status": "available",
+      "pattern_type": "VIP"
+    },
+    {
+      "id": "9",
+      "number": "+91 96666 66669",
+      "price": 15000,
+      "tags": ["Repeating", "VIP"],
+      "status": "available",
+      "pattern_type": "Repeating"
+    },
+    {
+      "id": "10",
+      "number": "+91 95555 55558",
+      "price": 14000,
+      "tags": ["Repeating", "Premium"],
+      "status": "available",
+      "pattern_type": "Repeating"
+    }
+  ]
+}
