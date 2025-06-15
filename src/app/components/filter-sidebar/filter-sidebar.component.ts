@@ -8,8 +8,42 @@ import { NumberService } from "../../services/number.service";
   standalone: true,
   imports: [CommonModule, FormsModule],
   template: `
-    <div class="bg-white rounded-lg shadow-md p-4">
-      <h2 class="text-xl font-bold mb-4">Filters</h2>
+    <div class="lg:hidden flex justify-end mb-4">
+      <button
+        (click)="toggleMobileFilters()"
+        class="p-2 rounded-md border border-gray-300 bg-white shadow-sm hover:bg-gray-100"
+      >
+        <svg
+          class="h-6 w-6 text-gray-700"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Sidebar for Large Screens OR Toggle Drawer on Mobile -->
+    <div
+      class="bg-white rounded-lg shadow-md p-4 lg:block"
+      [class.hidden]="!showMobileFilters && isMobile"
+    >
+      <div class="flex justify-between items-center lg:hidden mb-4">
+        <h2 class="text-lg font-bold">Filters</h2>
+        <button
+          (click)="toggleMobileFilters()"
+          class="text-sm text-purple-600 underline"
+        >
+          Close
+        </button>
+      </div>
+
+      <!-- Title (only desktop) -->
+      <h2 class="text-xl font-bold mb-4 hidden lg:block">Filters</h2>
 
       <!-- Price Range Filter -->
       <div class="mb-6">
@@ -150,12 +184,25 @@ export class FilterSidebarComponent implements OnInit {
     search: "",
   };
 
+  showMobileFilters = false;
+  isMobile = false;
+
   constructor(private numberService: NumberService) {}
 
   ngOnInit(): void {
     this.numberService.filterOptions$.subscribe((filters) => {
       this.filters = filters;
     });
+
+    // Detect screen size
+    this.isMobile = window.innerWidth < 1024;
+    window.addEventListener("resize", () => {
+      this.isMobile = window.innerWidth < 1024;
+    });
+  }
+
+  toggleMobileFilters(): void {
+    this.showMobileFilters = !this.showMobileFilters;
   }
 
   updatePriceFilter(value: string): void {
