@@ -1,4 +1,4 @@
-import { Component, type OnInit } from "@angular/core";
+import { Component, type OnInit, Input } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
 import { NumberService } from "../../services/number.service";
@@ -8,42 +8,13 @@ import { NumberService } from "../../services/number.service";
   standalone: true,
   imports: [CommonModule, FormsModule],
   template: `
-    <div class="lg:hidden flex justify-end mb-4">
-      <button
-        (click)="toggleMobileFilters()"
-        class="p-2 rounded-md border border-gray-300 bg-white shadow-sm hover:bg-gray-100"
-      >
-        <svg
-          class="h-6 w-6 text-gray-700"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          viewBox="0 0 24 24"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <path d="M4 6h16M4 12h16M4 18h16" />
-        </svg>
-      </button>
-    </div>
-
-    <!-- Sidebar for Large Screens OR Toggle Drawer on Mobile -->
     <div
-      class="bg-white rounded-lg shadow-md p-4 lg:block"
-      [class.hidden]="!showMobileFilters && isMobile"
+      class="bg-white rounded-lg shadow-md p-4"
+      [class.shadow-none]="isMobileOverlay"
     >
-      <div class="flex justify-between items-center lg:hidden mb-4">
-        <h2 class="text-lg font-bold">Filters</h2>
-        <button
-          (click)="toggleMobileFilters()"
-          class="text-sm text-purple-600 underline"
-        >
-          Close
-        </button>
-      </div>
-
-      <!-- Title (only desktop) -->
-      <h2 class="text-xl font-bold mb-4 hidden lg:block">Filters</h2>
+      <h2 class="text-xl font-bold mb-4" [class.hidden]="isMobileOverlay">
+        Filters
+      </h2>
 
       <!-- Price Range Filter -->
       <div class="mb-6">
@@ -52,50 +23,52 @@ import { NumberService } from "../../services/number.service";
           <div class="flex items-center">
             <input
               type="radio"
-              id="price-all"
-              name="priceRange"
+              id="price-all-{{ componentId }}"
+              name="priceRange-{{ componentId }}"
               value="all"
               [checked]="filters.priceRange === 'all'"
               (change)="updatePriceFilter('all')"
               class="mr-2"
             />
-            <label for="price-all">All Prices</label>
+            <label for="price-all-{{ componentId }}">All Prices</label>
           </div>
           <div class="flex items-center">
             <input
               type="radio"
-              id="price-under1000"
-              name="priceRange"
+              id="price-under1000-{{ componentId }}"
+              name="priceRange-{{ componentId }}"
               value="under1000"
               [checked]="filters.priceRange === 'under1000'"
               (change)="updatePriceFilter('under1000')"
               class="mr-2"
             />
-            <label for="price-under1000">Under ₹1,000</label>
+            <label for="price-under1000-{{ componentId }}">Under ₹1,000</label>
           </div>
           <div class="flex items-center">
             <input
               type="radio"
-              id="price-1000to5000"
-              name="priceRange"
+              id="price-1000to5000-{{ componentId }}"
+              name="priceRange-{{ componentId }}"
               value="1000to5000"
               [checked]="filters.priceRange === '1000to5000'"
               (change)="updatePriceFilter('1000to5000')"
               class="mr-2"
             />
-            <label for="price-1000to5000">₹1,000 - ₹5,000</label>
+            <label for="price-1000to5000-{{ componentId }}"
+              >₹1,000 - ₹5,000</label
+            >
           </div>
           <div class="flex items-center">
             <input
               type="radio"
-              id="price-above5000"
-              name="priceRange"
+              id="price-above5000-{{ componentId }}"
+              name="priceRange-{{ componentId }}"
               value="above5000"
               [checked]="filters.priceRange === 'above5000'"
               (change)="updatePriceFilter('above5000')"
               class="mr-2"
             />
-            <label for="price-above5000">Above ₹5,000</label>
+            <label for="price-above5000-{{ componentId }}">Above ₹5,000</label>
           </div>
         </div>
       </div>
@@ -107,50 +80,50 @@ import { NumberService } from "../../services/number.service";
           <div class="flex items-center">
             <input
               type="radio"
-              id="pattern-all"
-              name="patternType"
+              id="pattern-all-{{ componentId }}"
+              name="patternType-{{ componentId }}"
               value="all"
               [checked]="filters.patternType === 'all'"
               (change)="updatePatternFilter('all')"
               class="mr-2"
             />
-            <label for="pattern-all">All Patterns</label>
+            <label for="pattern-all-{{ componentId }}">All Patterns</label>
           </div>
           <div class="flex items-center">
             <input
               type="radio"
-              id="pattern-repeating"
-              name="patternType"
+              id="pattern-repeating-{{ componentId }}"
+              name="patternType-{{ componentId }}"
               value="Repeating"
               [checked]="filters.patternType === 'Repeating'"
               (change)="updatePatternFilter('Repeating')"
               class="mr-2"
             />
-            <label for="pattern-repeating">Repeating</label>
+            <label for="pattern-repeating-{{ componentId }}">Repeating</label>
           </div>
           <div class="flex items-center">
             <input
               type="radio"
-              id="pattern-vip"
-              name="patternType"
+              id="pattern-vip-{{ componentId }}"
+              name="patternType-{{ componentId }}"
               value="VIP"
               [checked]="filters.patternType === 'VIP'"
               (change)="updatePatternFilter('VIP')"
               class="mr-2"
             />
-            <label for="pattern-vip">VIP</label>
+            <label for="pattern-vip-{{ componentId }}">VIP</label>
           </div>
           <div class="flex items-center">
             <input
               type="radio"
-              id="pattern-custom"
-              name="patternType"
+              id="pattern-custom-{{ componentId }}"
+              name="patternType-{{ componentId }}"
               value="Custom"
               [checked]="filters.patternType === 'Custom'"
               (change)="updatePatternFilter('Custom')"
               class="mr-2"
             />
-            <label for="pattern-custom">Custom</label>
+            <label for="pattern-custom-{{ componentId }}">Custom</label>
           </div>
         </div>
       </div>
@@ -174,18 +147,29 @@ import { NumberService } from "../../services/number.service";
       >
         Reset Filters
       </button>
+
+      <!-- Apply Filters Button (Mobile Only) -->
+      <button
+        *ngIf="isMobileOverlay"
+        (click)="applyFilters()"
+        class="w-full mt-3 bg-purple-600 hover:bg-purple-700 text-white py-2 rounded-md transition-colors"
+      >
+        Apply Filters
+      </button>
     </div>
   `,
 })
 export class FilterSidebarComponent implements OnInit {
+  @Input() isMobileOverlay = false;
+  @Input() onApplyFilters?: () => void;
+
   filters = {
     priceRange: "all",
     patternType: "all",
     search: "",
   };
 
-  showMobileFilters = false;
-  isMobile = false;
+  componentId = Math.random().toString(36).substring(2, 9);
 
   constructor(private numberService: NumberService) {}
 
@@ -193,16 +177,6 @@ export class FilterSidebarComponent implements OnInit {
     this.numberService.filterOptions$.subscribe((filters) => {
       this.filters = filters;
     });
-
-    // Detect screen size
-    this.isMobile = window.innerWidth < 1024;
-    window.addEventListener("resize", () => {
-      this.isMobile = window.innerWidth < 1024;
-    });
-  }
-
-  toggleMobileFilters(): void {
-    this.showMobileFilters = !this.showMobileFilters;
   }
 
   updatePriceFilter(value: string): void {
@@ -223,5 +197,11 @@ export class FilterSidebarComponent implements OnInit {
       patternType: "all",
       search: "",
     });
+  }
+
+  applyFilters(): void {
+    if (this.onApplyFilters) {
+      this.onApplyFilters();
+    }
   }
 }

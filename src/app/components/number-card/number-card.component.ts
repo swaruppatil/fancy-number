@@ -13,6 +13,9 @@ import { CommonModule } from "@angular/common";
     >
       <div class="p-6">
         <h3 class="text-2xl font-bold text-center mb-3">{{ number.number }}</h3>
+        <p class="text-sm text-gray-500 text-center mb-3">
+          Digit Sum: {{ getNumberSum() }}
+        </p>
         <div class="flex justify-between items-center mb-4">
           <span class="text-xl font-semibold text-purple-700"
             >₹{{ number.price.toLocaleString("en-IN") }}</span
@@ -44,6 +47,12 @@ import { CommonModule } from "@angular/common";
 })
 export class NumberCardComponent {
   @Input() number!: FancyNumber;
+  getNumberSum(): number {
+    const rawNumber = this.number.number.replace(/\+91\s*/, ""); // Remove +91 and space
+    const digitsOnly = rawNumber.replace(/\D/g, ""); // Remove non-digit characters
+
+    return digitsOnly.split("").reduce((sum, digit) => sum + Number(digit), 0);
+  }
 }
 
 // import { Component, Input } from "@angular/core";
